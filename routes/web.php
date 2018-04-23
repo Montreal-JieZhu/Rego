@@ -18,3 +18,15 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::get('/register', function () {
+    return view('register');
+});
+
+Route::get('/restaurant', function () {
+    return view('restaurant');
+});
+
+Route::get('/footer', function () {
+    return view('footer');
+});
