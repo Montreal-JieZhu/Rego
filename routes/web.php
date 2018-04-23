@@ -27,6 +27,10 @@ Route::get('/restaurant', function () {
     return view('restaurant');
 });
 
+Route::get('/forms', function () {
+    return view('forms');
+});
+
 Route::get('/footer', function () {
     return view('footer');
 });
