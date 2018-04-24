@@ -34,3 +34,5 @@ Route::get('/forms', function () {
 Route::get('/footer', function () {
     return view('footer');
 });
+
+Route::resource('userdb','MyUserDBController');
