@@ -57,8 +57,8 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
+                            </div>                            
+                            <small class="text-muted"><?php // if(isset($_SESSION['userID'])){echo $_SESSION['userID'];}    ?></small>                            
                         </div>
                     </div>
                 </div>

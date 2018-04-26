@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -46,8 +47,8 @@
                 <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
                 <div class="form-group">
                     <select class="form-control" name='type' id='type' >
-                        <option style='color:blue'>User</option>
-                        <option style='color:blue'>Restauteur</option>
+                        <option style='color:blue' value='user'>User</option>
+                        <option style='color:blue' value='restauteur'>Restauteur</option>
                     </select>
                 </div>
                 <div class="form-group"><input class="form-control" type="email" id='email' name="email" placeholder="Email"></div>

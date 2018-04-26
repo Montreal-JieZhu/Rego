@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -38,7 +39,9 @@
                 <a class="py-2 d-none d-md-inline-block" href="#">Product</a>
                 <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
                 <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>
+                <!--
                 <a class="py-2 d-none d-md-inline-block" href="/admin">Restauteur</a>
+                -->
                 <?php if (empty($_SESSION['userID'])): ?>
                     <a id='logstatus' class="py-2 d-none d-md-inline-block" href="/login">Login</a>
                 <?php else: ?>

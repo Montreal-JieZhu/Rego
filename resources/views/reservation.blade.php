@@ -1,9 +1,10 @@
+<?php session_start(); ?>
 ﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Rego</title>
+        <title>Reservation</title>
         <link rel="stylesheet" href="../assets3/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
         <link rel="stylesheet" href="../assets3/fonts/font-awesome.min.css">
@@ -40,6 +41,12 @@
         <link rel="stylesheet" href="../assets3/css/Registration-Form-with-Photo.css">
         <link rel="stylesheet" href="../assets3/css/Simple-Slider.css">
         <link rel="stylesheet" href="../assets3/css/sticky-dark-top-nav-with-dropdown.css">
+        <link rel="stylesheet" href="../assets4/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets4/css/MUSA_panel-table.css">
+        <link rel="stylesheet" href="../assets4/css/MUSA_panel-table1.css">
+        <link rel="stylesheet" href="../assets4/css/Pretty-Table.css">
+        <link rel="stylesheet" href="../assets4/css/Pretty-Table1.css">
+        <link rel="stylesheet" href="../assets4/css/styles.css">
 
     </head>
     <body>
@@ -50,11 +57,41 @@
                         <div class="col-md-3 col-sm-3 col-xs-12"></div>
                         <h3>Reservation：</h3>
                         <div class="clearfix"></div>
-                    </div>
+                    </div>                    
                     <div class="x_content" >
                         <br>
                         <form action="/reservation/submit" method="post" class="form-horizontal form-label-left input_mask">
                             <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                            @if(!empty($_SESSION['userID']))
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input required="required" type="text" class="form-control has-feedback-left" id="firstname" name="firstname" placeholder="First Name" value="{{ $_SESSION['userID']->first_name }}">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input required="required" type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" value="{{$_SESSION['userID']->last_name}}">
+                                    <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input required="required" type="text" class="form-control has-feedback-left" id="email" name="email" placeholder="Email" value="{{$_SESSION['userID']->email}}">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <input required="required" type="text" class="form-control" id="phone" name="phone" placeholder="Phone" value="{{$_SESSION['userID']->phone_number}}">
+                                    <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            @else
                             <div class="form-group">
                                 <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
@@ -83,6 +120,7 @@
                                     <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
                                 </div>
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">Restaurant Name</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -94,6 +132,59 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input readonly="readonly" type="text" class="form-control" disabled="disabled" placeholder="Description" id="description" name="description" value="<?php echo $restaurant->description; ?>">
                                 </div>
+                            </div>
+                            <div class='form-group'>
+                                <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="panel panel-default panel-table">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col col-xs-6">
+                                                    <h3 class="panel-title">Please choose your favorite table!</h3>
+                                                </div>                  
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <table class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th><em class="fa fa-cog"></em></th>
+                                                        <th class="hidden-xs">ID</th>
+                                                        <th>Table Number</th>
+                                                        <th>Capacity</th>
+                                                        <th>Seeting Type</th>
+                                                        <th>Area</th>
+                                                    </tr> 
+                                                </thead>
+                                                <tbody>
+                                                    @if(!empty($tables))
+                                                    <tr>                                                        
+                                                        <td align="center">
+                                                            <input type="radio" checked="" value="1" id="optionsRadios1" name="optionsRadios">
+                                                        </td>
+                                                        <td class="hidden-xs">1</td>
+                                                        <td>John Doe</td>
+                                                        <td>johndoe@example.com</td>
+                                                        <td>Standard</td>
+                                                        <td>Smoking</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">
+                                                            <input type="radio" checked="" value="2" id="optionsRadios1" name="optionsRadios">
+                                                        </td>
+                                                        <td class="hidden-xs">1</td>
+                                                        <td>John Doe</td>
+                                                        <td>johndoe@example.com</td>
+                                                        <td>Hight top</td>
+                                                        <td>No Smoking</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>              
+                                    </div>
+
+                                </div>                                
                             </div>
 
                             <div class="form-group">

@@ -6,6 +6,8 @@ use DummyFullModelClass;
 use App\lain;
 use Illuminate\Http\Request;
 use DB;
+
+session_start();
 class ReservationDBController extends Controller
 {
 
@@ -41,25 +43,7 @@ class ReservationDBController extends Controller
       DB::insert('insert into reservations (user_id,restaurant_id,number_of_person,
               contact_person,phone_number,special_request,period,created_at) values(?,?,?,?,?,?,?,?)',[$userID,$restaurantID,$guestNumber,$firstname,$phone,$requirement,$serviceDate." ".$serviceTime,$timestamp]);
       echo "Record inserted successfully.<br/>";
-      echo '<a href = "/insert">Click Here</a> to go back.';
-      /*
-      echo $firstname;
-      echo '<br/>';
-      echo $lastname;
-      echo '<br/>';
-      echo $email;
-      echo '<br/>';
-      echo $phone;
-      echo '<br/>';
-      echo $userID;
-      echo '<br/>';
-      echo $guestNumber;
-      echo '<br/>';
-      echo $serviceTime;
-      echo '<br/>';
-      echo $restaurantID;    
-      echo '<br/>';
-      */
+      echo '<a href = "/insert">Click Here</a> to go back.';      
    }
     /**
      * Display a listing of the resource.

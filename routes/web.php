@@ -40,13 +40,10 @@ Route::get('/restaurant', function () {
 Route::get('/reservation/{num}', function ($num) {
     $sql = 'select * from restaurants where id=' . $num;
     $restaurant = DB::select($sql);
-    //$restaurants = DB::table('restaurants')->get();  
-    //$minutes = 60;
-    //$response = new Response('restaurantID');
-    //$response->withCookie(cookie('restaurantID', $num, $minutes));
-    //return $response;
+    $sqlTables='select * from tables where restaurant_id='. $num;
+    $tables = DB::select($sqlTables);    
     setcookie('restaurantID', $num, time() + 86400, "/"); 
-    return view('reservation', ['restaurant' => $restaurant[0]]);
+    return view('reservation', ['restaurant' => $restaurant[0],'tables'=>$tables]);
 });
 
 Route::get('/registerOK', function () {
