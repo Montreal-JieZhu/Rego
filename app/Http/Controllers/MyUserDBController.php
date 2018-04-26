@@ -11,16 +11,31 @@ use App\Http\Controllers\Controller;
 
 class MyUserDBController extends Controller {
 
+    public function logout(lain $lain, Request $request) {
+        $_SESSION['userID']=null;
+        header('Refresh:0;url='.config('myregoapp.HOME_URL')); 
+        //return view('index');
+    }
+    
+    public function validation(lain $lain, Request $request){
+        $users = DB::select('select * from users');        
+        if(!empty($users[0])){            
+            $user = $users[0];
+            $password = $user->password;
+            $inputPassword = $request->input('password');
+            if($password==$inputPassword){                
+               // $_SESSION['userID'] = $request->input('email');
+                $_SESSION['userID'] = $user;
+                //header("Refresh:0;url=http://localhost:8080");  
+                header('Refresh:0;url='.config('myregoapp.HOME_URL')); 
+                //return view('index');
+            }else{
+                header('Refresh:0;url='.config('myregoapp.HOME_URL').'/login');
+            }
+        }
+    }
     public function insert(lain $lain, Request $request) {
 
-        $firstname = $request->input('firstname');
-        $lastname = $request->input('lastname');
-        $phone = $request->input('phone');
-        $email = $request->input('email');
-        $password = $request->input('password');
-        DB::insert('insert into user (firstname,lastname,email,phone,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
-        echo "New user inserted successfully.<br/>";
-        echo '<a href = "/register">Click Here</a> to go back.';
     }
 
     /**
@@ -30,19 +45,7 @@ class MyUserDBController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, lain $lain) {
-        $users = DB::select('select * from user');
-        
-        if(!empty($users[0])){
-            
-            $user = $users[0];
-            $password = $user->password;
-            $inputPassword = $request->input('password');
-            if($password==$inputPassword){
-                
-                $_SESSION['userID'] = $request->input('email');
-                header("Refresh:0;url=http://localhost:8080");                
-            }
-        }
+        //
     }
 
     /**
@@ -52,17 +55,7 @@ class MyUserDBController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request, lain $lain) {
-        $firstname = $request->input('firstname');
-        $lastname = $request->input('lastname');
-        $phone = $request->input('phone');
-        $email = $request->input('email');
-        $password = $request->input('password');
-        DB::insert('insert into user (firstname,lastname,email,phone,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
-        //$request->session()->put('userID',$email);
-        $_SESSION['userID'] = $email;
-        echo "Data has been added to session";
-        echo "New user inserted successfully.<br/>";
-        echo '<a href = "/login">Click Here</a> to go login. or go to <a href = "/">Home</a>';
+        //
     }
 
     /**
@@ -73,7 +66,13 @@ class MyUserDBController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, lain $lain) {
-        //
+        $firstname = $request->input('firstname');
+        $lastname = $request->input('lastname');
+        $phone = $request->input('phone');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        DB::insert('insert into users (first_name,last_name,email,phone_number,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
+        return view('registerOK',['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email]);
     }
 
     /**

@@ -49,11 +49,14 @@
 <body>
     <div class="highlight-clean">
         <div class="container">
+            
             <div class="intro">
-                <h2 class="text-center">Highlight</h2>
-                <p class="text-center">Nunc luctus in metus eget fringilla. Aliquam sed justo ligula. Vestibulum nibh erat, pellentesque ut laoreet vitae. </p>
+                <h2 class="text-center"><?php  echo 'Dear '.$firstname.' '.$lastname?></h2>
+                <p class="text-center">You register your new rego account successfully, Please remember your registered email:<?php echo $email?> </p>
             </div>
-            <div class="buttons"><a class="btn btn-primary" role="button" href="#">Primary</a><button class="btn btn-default" type="button">Secondary</button></div>
+            <div class="buttons">
+                <a class="btn btn-primary" role="button" href="/login">Login</a>
+                <button class="btn btn-default" type="button" onclick="location.href='/';">Home</button></div>
         </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
