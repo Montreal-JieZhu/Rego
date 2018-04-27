@@ -33,6 +33,8 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::get('/restaurant/checkTables','ReservationDBController@checkAvailableTables');
+
 Route::get('/restaurant', function () {
     return view('restaurant');
 });
@@ -41,7 +43,7 @@ Route::get('/reservation/{num}', function ($num) {
     $sql = 'select * from restaurants where id=' . $num;
     $restaurant = DB::select($sql);
     $sqlTables='select * from tables where restaurant_id='. $num;
-    $tables = DB::select($sqlTables);    
+    $tables = DB::select($sqlTables); 
     setcookie('restaurantID', $num, time() + 86400, "/"); 
     return view('reservation', ['restaurant' => $restaurant[0],'tables'=>$tables]);
 });

@@ -162,12 +162,12 @@
                                                     $counter = 1;
                                                     $seatType = array('Standard', 'Counter', 'Bar', 'High Top');
                                                     ?>
-                                                    @foreach( $tables as $table)
-                                                    <tr>
+                                                    @foreach( $tables as $table)                                                    
+                                                    <tr id="availableTables">
                                                         <td align="center">
-                                                            <input type="radio" value="{{$table->id}}" id="optionsRadios{{$counter++}}" name="selected">
+                                                            <input type="radio" value="{{$table->id}}" id="optionsRadios{{$counter}}" name="selected">
                                                         </td>
-                                                        <td class="hidden-xs">{{$table->id}}</td>
+                                                        <td class="hidden-xs">{{$counter++}}</td>
                                                         <td>{{$table->table_number}}</td>
                                                         <td>{{$table->number_of_person}}</td>
                                                         <td>{{$seatType[$table->seating_type_id]}}</td>
@@ -194,9 +194,10 @@
                                     Date<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input class="date-picker form-control col-md-6 col-xs-12" min="2018-04-25" type="date" id="resdate" name="resdate" required="required" type="text">
+                                    <input oninput="showAvailableTables(this.value)" class="date-picker form-control col-md-6 col-xs-12" min="{{date('Y-m-d',time())}}" type="date" id="resdate" name="resdate" required="required" type="text">
                                 </div>
                             </div>
+                            <div id="showresponse"></div>
                             <div class="form-group">
                                 <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">Time <span class="required"></span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -261,5 +262,40 @@
         <script src="../assets3/js/PHP-Contact-Form-dark.js"></script>
         <script src="../assets3/js/PHP-Contact-Form-dark.js"></script>
         <script src="../assets3/js/Simple-Slider.js"></script>
+        <script>
+                                        function showAvailableTables(serviceDate) {
+                                            
+                                             var xhttp;                                            
+                                             if (serviceDate.length == 0) {
+                                             return;
+                                             }                                            
+                                             xhttp = new XMLHttpRequest();
+                                             //alert("1");
+                                             xhttp.onreadystatechange = function () {
+                                             alert("2");
+                                             if (this.readyState == 4 && this.status == 200) {
+                                             alert("3");
+                                             document.getElementById("showresponse").innerHTML = this.responseText;
+                                             }
+                                             };
+                                             //alert("4");
+                                             var query=window.location.pathname+"/date=2018-04-28&resID=1" ;
+                                             var query2="/restaurant/checkTables";
+                                             alert(query);
+                                             xhttp.open("GET", query2, true);
+                                             xhttp.send();
+        /*
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: '../resources/views/checkTables.php',
+                                                //data: '_token = <?php echo csrf_token() ?>',
+                                                success: function (data) {
+                                                    $("#showresponse").html(data.msg);
+                                                }
+                                            });*/
+                                        }
+        </script>
+        <?php
+        ?>
     </body>
 </html>

@@ -11,6 +11,11 @@ session_start();
 
 class ReservationDBController extends Controller {
 
+    public function checkAvailableTables(Request $request){
+        $msg = "This is a simple message.";
+return response()->json(array('msg' => $msg), 200);
+    }
+    
     public function insert(Request $request) {
         $firstname = $request->input('firstname');
         $lastname = $request->input('lastname');
@@ -23,7 +28,7 @@ class ReservationDBController extends Controller {
             echo '<a href="/">Go back to Home</a>';
             return;
         }
-        $tableNum = $request->input('selected');
+        $tableID = $request->input('selected');
         $user = null;
         $userID = null;
         if (!empty($_SESSION['userID'])) {
@@ -41,7 +46,7 @@ class ReservationDBController extends Controller {
         //$date =  $_POST['date'];
         $timestamp = date('Y-m-d H:i:s', time());
         DB::insert('insert into reservations (user_id,restaurant_id,number_of_person,
-              contact_person,phone_number,special_request,period,created_at,table_id) values(?,?,?,?,?,?,?,?,?)', [$userID, $restaurantID, $guestNumber, $firstname, $phone, $requirement, $serviceDate . " " . $serviceTime, $timestamp, $tableNum]);
+              contact_person,phone_number,special_request,period,created_at,table_id) values(?,?,?,?,?,?,?,?,?)', [$userID, $restaurantID, $guestNumber, $firstname, $phone, $requirement, $serviceDate . " " . $serviceTime, $timestamp, $tableID]);
         echo "Record inserted successfully.<br/>";
         echo '<a href = "/">Click Here</a> to go back to home.';
     }
