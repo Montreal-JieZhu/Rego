@@ -8,51 +8,51 @@ use Illuminate\Http\Request;
 use DB;
 
 session_start();
-class ReservationDBController extends Controller
-{
 
-    public function insert(Request $request){
-      $firstname = $request->input('firstname');
-      $lastname = $request->input('lastname');
-      $email = $request->input('email');
-      $phone = $request->input('phone');      
-      if(isset($_COOKIE['restaurantID'])){
-          //$restaurantID = $request->cookie('restaurantID');
-          $restaurantID = $_COOKIE['restaurantID'];
-      }else{
-          echo "you don't select a restaurant!<br>";
-          echo '<a href="/">Go back to Home</a>';
-          return;
-      }
-      $user = null;
-      $userID = null;
-      if(!empty($_SESSION['userID'])){
-          $user = $_SESSION['userID'];
-          $userID = $user->id;
-      }else{
-          echo "you don't login!<br>";
-          echo '<a href="/login">Please login firstly!</a>';
-          return;
-      }         
-      $guestNumber = $request->input('numbers');
-      $serviceTime=$request->input('restime');
-      $serviceDate=$request->input('resdate');
-      $requirement = $request->input('requirement');
-      //$date =  $_POST['date'];
-      $timestamp = date('Y-m-d H:i:s', time()); 
-      DB::insert('insert into reservations (user_id,restaurant_id,number_of_person,
-              contact_person,phone_number,special_request,period,created_at) values(?,?,?,?,?,?,?,?)',[$userID,$restaurantID,$guestNumber,$firstname,$phone,$requirement,$serviceDate." ".$serviceTime,$timestamp]);
-      echo "Record inserted successfully.<br/>";
-      echo '<a href = "/insert">Click Here</a> to go back.';      
-   }
+class ReservationDBController extends Controller {
+
+    public function insert(Request $request) {
+        $firstname = $request->input('firstname');
+        $lastname = $request->input('lastname');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        if (isset($_COOKIE['restaurantID'])) {
+            $restaurantID = $_COOKIE['restaurantID'];
+        } else {
+            echo "you don't select a restaurant!<br>";
+            echo '<a href="/">Go back to Home</a>';
+            return;
+        }
+        $tableNum = $request->input('selected');
+        $user = null;
+        $userID = null;
+        if (!empty($_SESSION['userID'])) {
+            $user = $_SESSION['userID'];
+            $userID = $user->id;
+        } else {
+            echo "you don't login!<br>";
+            echo '<a href="/login">Please login firstly!</a>';
+            return;
+        }
+        $guestNumber = $request->input('numbers');
+        $serviceTime = $request->input('restime');
+        $serviceDate = $request->input('resdate');
+        $requirement = $request->input('requirement');
+        //$date =  $_POST['date'];
+        $timestamp = date('Y-m-d H:i:s', time());
+        DB::insert('insert into reservations (user_id,restaurant_id,number_of_person,
+              contact_person,phone_number,special_request,period,created_at,table_id) values(?,?,?,?,?,?,?,?,?)', [$userID, $restaurantID, $guestNumber, $firstname, $phone, $requirement, $serviceDate . " " . $serviceTime, $timestamp, $tableNum]);
+        echo "Record inserted successfully.<br/>";
+        echo '<a href = "/">Click Here</a> to go back to home.';
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function index(lain $lain)
-    {
+    public function index(lain $lain) {
         //
     }
 
@@ -62,8 +62,7 @@ class ReservationDBController extends Controller
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function create(lain $lain)
-    {
+    public function create(lain $lain) {
         //
     }
 
@@ -74,8 +73,7 @@ class ReservationDBController extends Controller
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, lain $lain)
-    {
+    public function store(Request $request, lain $lain) {
         //
     }
 
@@ -86,8 +84,7 @@ class ReservationDBController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function show(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function show(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -98,8 +95,7 @@ class ReservationDBController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function edit(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function edit(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -111,8 +107,7 @@ class ReservationDBController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function update(Request $request, lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -123,8 +118,8 @@ class ReservationDBController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function destroy(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
+
 }

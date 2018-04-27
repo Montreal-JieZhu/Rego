@@ -57,7 +57,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-12"></div>
                         <h3>Reservation：</h3>
                         <div class="clearfix"></div>
-                    </div>                    
+                    </div>
                     <div class="x_content" >
                         <br>
                         <form action="/reservation/submit" method="post" class="form-horizontal form-label-left input_mask">
@@ -141,7 +141,7 @@
                                             <div class="row">
                                                 <div class="col col-xs-6">
                                                     <h3 class="panel-title">Please choose your favorite table!</h3>
-                                                </div>                  
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="panel-body">
@@ -154,37 +154,39 @@
                                                         <th>Capacity</th>
                                                         <th>Seeting Type</th>
                                                         <th>Area</th>
-                                                    </tr> 
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     @if(!empty($tables))
-                                                    <tr>                                                        
-                                                        <td align="center">
-                                                            <input type="radio" checked="" value="1" id="optionsRadios1" name="optionsRadios">
-                                                        </td>
-                                                        <td class="hidden-xs">1</td>
-                                                        <td>John Doe</td>
-                                                        <td>johndoe@example.com</td>
-                                                        <td>Standard</td>
-                                                        <td>Smoking</td>
-                                                    </tr>
+                                                    <?php
+                                                    $counter = 1;
+                                                    $seatType = array('Standard', 'Counter', 'Bar', 'High Top');
+                                                    ?>
+                                                    @foreach( $tables as $table)
                                                     <tr>
                                                         <td align="center">
-                                                            <input type="radio" checked="" value="2" id="optionsRadios1" name="optionsRadios">
+                                                            <input type="radio" value="{{$table->id}}" id="optionsRadios{{$counter++}}" name="selected">
                                                         </td>
-                                                        <td class="hidden-xs">1</td>
-                                                        <td>John Doe</td>
-                                                        <td>johndoe@example.com</td>
-                                                        <td>Hight top</td>
-                                                        <td>No Smoking</td>
+                                                        <td class="hidden-xs">{{$table->id}}</td>
+                                                        <td>{{$table->table_number}}</td>
+                                                        <td>{{$table->number_of_person}}</td>
+                                                        <td>{{$seatType[$table->seating_type_id]}}</td>
+                                                        <td>@if($table->at_smoking_area==1)
+                                                            {{'Smoking'}}
+                                                            @else
+                                                            {{'NonSmoking'}}
+                                                            @endif
+                                                        </td>
                                                     </tr>
+                                                    @endforeach
+                                                    @endif
                                                 </tbody>
                                             </table>
 
-                                        </div>              
+                                        </div>
                                     </div>
 
-                                </div>                                
+                                </div>
                             </div>
 
                             <div class="form-group">
