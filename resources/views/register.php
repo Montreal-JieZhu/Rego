@@ -50,7 +50,7 @@
                     <h2>Welcome to Rego!</h2>
                     <p>You will have best experience here!</p>
                 </div>
-                <form action="/userdb" method="post" id="Register-form">
+                <form action="/userdb" method="post" id="Register-form" onsubmit=" return validationFunction(this)">
                     <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
                     <div class="messages"></div>
                     <div class="controls">
@@ -115,6 +115,34 @@
         <script src="assets/js/PHP-Contact-Form-dark.js"></script>
         <script src="assets/js/PHP-Contact-Form-dark.js"></script>
         <script src="assets/js/Simple-Slider.js"></script>
+        <script>
+                                function validationFunction(registeform) {
+                                    var password = registeform.password.value;
+                                    var confirm = registeform.confirm.value;
+                                    if (password !== confirm) {
+                                        alert("your password is not match!");
+                                        return false;
+                                    }
+                                    var email = registeform.email.value;
+                                    var xhttp = new XMLHttpRequest();
+                                    var obj
+                                    xhttp.onreadystatechange = function () {
+                                        //alert(1);
+                                        if (this.readyState === 4 && this.status === 200) {
+                                            //alert(2);
+                                            obj = JSON.parse(this.responseText);
+                                        }
+                                    };
+                                    xhttp.open("GET", "/userdb/validation/" + email, false);
+                                    xhttp.send();
+                                    if (obj.result === 1) {
+                                        alert("your email already exist!please input again!");
+                                        return false;
+                                    } else if (obj.result === 0) {
+                                        return true;
+                                    }
+                                }
+        </script>
     </body>
 
 </html>

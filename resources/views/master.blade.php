@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -37,8 +37,8 @@
                 </a>
                 <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>
                 <a class="py-2 d-none d-md-inline-block" href="#">Product</a>
-                <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
-                <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>
+                <a class="py-2 d-none d-md-inline-block" href="#">French</a>
+                <a class="py-2 d-none d-md-inline-block" href="#">English</a>
                 <!--
                 <a class="py-2 d-none d-md-inline-block" href="/admin">Restauteur</a>
                 -->

@@ -133,6 +133,14 @@
                                     <input readonly="readonly" type="text" class="form-control" disabled="disabled" placeholder="Description" id="description" name="description" value="<?php echo $restaurant->description; ?>">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Date<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input oninput="showAvailableTables(this.value)" class="date-picker form-control col-md-6 col-xs-12" min="{{date('Y-m-d',time())}}" type="date" id="resdate" name="resdate" required="required" type="text">
+                                </div>
+                            </div>
                             <div class='form-group'>
                                 <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -149,64 +157,39 @@
                                                 <thead>
                                                     <tr>
                                                         <th><em class="fa fa-cog"></em></th>
-                                                        <th class="hidden-xs">ID</th>
                                                         <th>Table Number</th>
                                                         <th>Capacity</th>
                                                         <th>Seeting Type</th>
                                                         <th>Area</th>
+                                                        <th>Period</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    @if(!empty($tables))
-                                                    <?php
-                                                    $counter = 1;
-                                                    $seatType = array('Standard', 'Counter', 'Bar', 'High Top');
-                                                    ?>
-                                                    @foreach( $tables as $table)                                                    
-                                                    <tr id="availableTables">
-                                                        <td align="center">
-                                                            <input type="radio" value="{{$table->id}}" id="optionsRadios{{$counter}}" name="selected">
-                                                        </td>
-                                                        <td class="hidden-xs">{{$counter++}}</td>
-                                                        <td>{{$table->table_number}}</td>
-                                                        <td>{{$table->number_of_person}}</td>
-                                                        <td>{{$seatType[$table->seating_type_id]}}</td>
-                                                        <td>@if($table->at_smoking_area==1)
-                                                            {{'Smoking'}}
-                                                            @else
-                                                            {{'NonSmoking'}}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                    @endif
+                                                <tbody id="tablesBody">
                                                 </tbody>
+                                                <tr class="availableTables" hidden="true">
+                                                    <td align="center">
+                                                        <input onclick="radioToSelect(this);"  type="radio" value="" id="" name="selected" required>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <select class="form-control"  id="" name="" onchange="triggerToRadio(this)">
+                                                            <option value=>None</option>
+                                                            <option value="1" >11:00AM - 03:00PM</option>
+                                                            <option value="2" >05:00PM - 10:00PM</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                             </table>
-
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                    Date<span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input oninput="showAvailableTables(this.value)" class="date-picker form-control col-md-6 col-xs-12" min="{{date('Y-m-d',time())}}" type="date" id="resdate" name="resdate" required="required" type="text">
-                                </div>
-                            </div>
                             <div id="showresponse"></div>
-                            <div class="form-group">
-                                <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">Time <span class="required"></span></label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" required="required" id="restime" name="restime">
-                                        <option value="11:00AM - 03:00PM">11:00AM - 03:00PM</option>
-                                        <option value="05:00PM - 10:00PM">05:00PM - 10:00PM</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label style="color:black" class="control-label col-md-3 col-sm-3 col-xs-12">Guests number <span class="required"></span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -233,16 +216,6 @@
                                     <textarea class="form-control" rows="3" placeholder="Special requirement" id="requirement" name="requirement"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div>
-                                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                    <div class="checkbox col-md-6 col-sm-6 col-xs-12">
-                                        <label>
-                                            <input type="checkbox" id="accept" name="accept" value="yes">Yes, I want to get email updates and reminders about my reservations
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -264,38 +237,95 @@
         <script src="../assets3/js/Simple-Slider.js"></script>
         <script>
                                         function showAvailableTables(serviceDate) {
-                                            
-                                             var xhttp;                                            
-                                             if (serviceDate.length == 0) {
-                                             return;
-                                             }                                            
-                                             xhttp = new XMLHttpRequest();
-                                             //alert("1");
-                                             xhttp.onreadystatechange = function () {
-                                             alert("2");
-                                             if (this.readyState == 4 && this.status == 200) {
-                                             alert("3");
-                                             document.getElementById("showresponse").innerHTML = this.responseText;
-                                             }
-                                             };
-                                             //alert("4");
-                                             var query=window.location.pathname+"/date=2018-04-28&resID=1" ;
-                                             var query2="/restaurant/checkTables";
-                                             alert(query);
-                                             xhttp.open("GET", query2, true);
-                                             xhttp.send();
-        /*
-                                            $.ajax({
-                                                type: 'GET',
-                                                url: '../resources/views/checkTables.php',
-                                                //data: '_token = <?php echo csrf_token() ?>',
-                                                success: function (data) {
-                                                    $("#showresponse").html(data.msg);
+
+                                            var xhttp;
+                                            if (serviceDate.length == 0) {
+                                                return;
+                                            }
+                                            xhttp = new XMLHttpRequest();
+                                            xhttp.onreadystatechange = function () {
+                                                if (this.readyState == 4 && this.status == 200) {
+                                                    $("#tablesBody").empty();
+                                                    var obj = JSON.parse(this.responseText);
+                                                    var tableRowNode;
+                                                    var tableColChildren;
+                                                    var t;
+                                                    var seatType = ['Standard', 'Counter', 'Bar', 'High Top'];
+                                                    var smokingArea = ['NonSmoking', 'Smoking'];
+                                                    for (var i = 0; i < obj.length; i++) {
+                                                        t = obj[i];
+                                                        tableRowNode = $(".availableTables").first().clone(true);
+                                                        tableRowNode.removeAttr('hidden');
+                                                        tableRowNode.removeAttr('class');
+                                                        tableColChildren = tableRowNode.children();
+                                                        var firstitems = tableColChildren.first();
+                                                        firstitems.children().first().attr('value', t.tableObj.id + "-" + i);
+                                                        var count = 1;
+                                                        while (count < 5) {
+                                                            firstitems = firstitems.next();
+                                                            switch (count) {
+                                                                case 1:
+                                                                    firstitems.text(t.tableObj.table_number);
+                                                                    break;
+                                                                case 2:
+                                                                    firstitems.text(t.tableObj.number_of_person);
+                                                                    break;
+                                                                case 3:
+                                                                    firstitems.text(seatType[t.tableObj.seating_type_id - 1]);
+                                                                    break;
+                                                                case 4:
+                                                                    firstitems.text(smokingArea[t.tableObj.at_smoking_area]);
+                                                                    break;
+                                                            }
+                                                            count++;
+                                                        }
+                                                        var lastSelect = tableColChildren.last().children().first();
+                                                        //alert(lastSelect.children().length);
+                                                        lastSelect.attr("id", "resTime" + i);
+                                                        lastSelect.attr("name", "resTime" + i);
+                                                        var optionone = lastSelect.children().first();
+                                                        //alert(t.status);
+                                                        switch (t.status) {
+                                                            case 1:
+                                                                //alert('1 - 1');
+                                                                optionone.next().remove();
+                                                                break;
+                                                            case 2:
+                                                                //alert('2 - 1');
+                                                                optionone.next().next().remove();
+                                                                break;
+                                                            case 3:
+                                                                //alert(3);
+                                                                optionone.next().remove();
+                                                                optionone.next().remove();
+                                                                break;
+                                                        }
+                                                        tableRowNode.appendTo("#tablesBody");
+                                                    }
+
                                                 }
-                                            });*/
+                                            };
+                                            var query = '/reservation/checkTables/' + serviceDate + '/' + <?php echo $restaurant->id ?>;
+                                            //alert(query);
+                                            xhttp.open("GET", query, true);
+                                            xhttp.send();
+                                        }
+                                        //To check the radio status of radio
+                                        var currentValue = 0;
+                                        function radioToSelect(selectedRadio) {
+                                            var preValue = currentValue;
+                                            currentValue = selectedRadio.value.split("-")[1];
+                                            var currentSelectID = "#resTime" + currentValue;
+                                            var preSelectID = "#resTime" + preValue;
+                                            $(preSelectID).removeAttr('required');
+                                            $(currentSelectID).attr('required', "true");
+                                        }
+
+                                        function triggerToRadio(selectObj) {
+                                            var radioObj = $(selectObj).parent().parent().children().first().children().first();
+                                            radioObj.prop("checked", true);
+                                            radioObj.attr('checked', 'checked');
                                         }
         </script>
-        <?php
-        ?>
     </body>
 </html>

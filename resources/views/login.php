@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -47,13 +47,15 @@
                 <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
                 <div class="form-group">
                     <select class="form-control" name='type' id='type' >
-                        <option style='color:blue' value='user'>User</option>
-                        <option style='color:blue' value='restauteur'>Restauteur</option>
+                        <option style='color:black' value='user'>User</option>
+                        <option style='color:black' value='restauteur'>Restauteur</option>
                     </select>
                 </div>
                 <div class="form-group"><input class="form-control" type="email" id='email' name="email" placeholder="Email"></div>
                 <div class="form-group"><input class="form-control" type="password" id='password' name="password" placeholder="Password"></div>
-                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a href="#" class="forgot">Forgot your email or password?</a></form>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="button" onclick="location.href = '/'">Home</button></div>
+            </form>
         </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>

@@ -10,18 +10,18 @@
   | contains the "web" middleware group. Now create something great!
   |
  */
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
 
 Route::get('/', function () {
     $restaurants = DB::table('restaurants')->get();
     return view('index', ['restaurants' => $restaurants]);
 });
 
-Route::get('sendbasicemail','MailController@basic_email');
-Route::get('sendhtmlemail','MailController@html_email');
-Route::get('sendattachmentemail','MailController@attachment_email');
+Route::get('sendbasicemail', 'MailController@basic_email');
+Route::get('sendhtmlemail', 'MailController@html_email');
+Route::get('sendattachmentemail', 'MailController@attachment_email');
 
 Route::get('/login', function () {
     return view('login');
@@ -33,8 +33,12 @@ Route::get('/register', function () {
     return view('register');
 });
 
-Route::get('/restaurant/checkTables','ReservationDBController@checkAvailableTables');
-
+Route::get('/reservation/checkTables/{date}/{resID}', 'ReservationDBController@checkAvailableTables');
+/*
+  Route::get('/reservation/checkTables/{date}/{resID}', function() {
+  echo '123';
+  });
+ */
 Route::get('/restaurant', function () {
     return view('restaurant');
 });
@@ -42,10 +46,10 @@ Route::get('/restaurant', function () {
 Route::get('/reservation/{num}', function ($num) {
     $sql = 'select * from restaurants where id=' . $num;
     $restaurant = DB::select($sql);
-    $sqlTables='select * from tables where restaurant_id='. $num;
-    $tables = DB::select($sqlTables); 
-    setcookie('restaurantID', $num, time() + 86400, "/"); 
-    return view('reservation', ['restaurant' => $restaurant[0],'tables'=>$tables]);
+    $sqlTables = 'select * from tables where restaurant_id=' . $num;
+    $tables = DB::select($sqlTables);
+    setcookie('restaurantID', $num, time() + 86400, "/");
+    return view('reservation', ['restaurant' => $restaurant[0], 'tables' => $tables]);
 });
 
 Route::get('/registerOK', function () {
@@ -59,7 +63,10 @@ Route::get('/forms', function () {
 Route::get('/footer', function () {
     return view('footer');
 });
-Route::post('/userdb/login', 'MyUserDBController@validation');
+
+Route::get('/userdb/validation/{email}', 'MyUserDBController@validation');
+
+Route::post('/userdb/login', 'MyUserDBController@login');
 Route::resource('userdb', 'MyUserDBController');
 //Route::resource('submit','ReservationDBController');
 

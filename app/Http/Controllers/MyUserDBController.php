@@ -13,13 +13,26 @@ session_start();
 
 class MyUserDBController extends Controller {
 
+    public function validation(lain $lain, Request $request, $email) {
+
+        $sql = "select * from users where email='" . $email . "'";
+        $users = DB::select($sql);
+        $result;
+        if (empty($users[0])) {
+            $result = array('result' => 0);
+        } else {
+            $result = array('result' => 1);
+        }
+        return response()->json($result, 200);
+    }
+
     public function logout(lain $lain, Request $request) {
         $_SESSION['userID'] = null;
         header('Refresh:0;url=' . config('myregoapp.HOME_URL'));
         //return view('index');
     }
 
-    public function validation(lain $lain, Request $request) {
+    public function login(lain $lain, Request $request) {
         $sql = "select * from users where email='" . $request->input('email') . "'";
         $users = DB::select($sql);
         if (!empty($users[0])) {
@@ -28,19 +41,18 @@ class MyUserDBController extends Controller {
             $inputPassword = $request->input('password');
             if ($password == $inputPassword) {
                 $_SESSION['userID'] = $user;
-                switch($request->input('type')){
-                    case 'user':                    
-                    header('Refresh:0;url=' . config('myregoapp.HOME_URL'));
-                    break;
+                switch ($request->input('type')) {
+                    case 'user':
+                        header('Refresh:0;url=' . config('myregoapp.HOME_URL'));
+                        break;
                     case 'restauteur':
-                    header('Refresh:0;url=' . config('myregoapp.HOME_URL').'/admin');
-                    break;
-                    
+                        header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/admin');
+                        break;
                 }
-        } else {
-            echo 'Your password is not correct, please check it!';
-            header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/login');
-        }
+            } else {
+                echo 'Your password is not correct, please check it!';
+                header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/login');
+            }
         } else {
             echo 'Your account name is not correct, please check it!';
             header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/login');
@@ -48,7 +60,7 @@ class MyUserDBController extends Controller {
     }
 
     public function insert(lain $lain, Request $request) {
-        
+
     }
 
     /**
@@ -85,7 +97,9 @@ class MyUserDBController extends Controller {
         $email = $request->input('email');
         $password = $request->input('password');
         DB::insert('insert into users (first_name,last_name,email,phone_number,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
-        return view('registerOK', ['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email]);
+        $msg = 'You register your new rego account successfully, Please remember your registered email:';
+        $nextStep = 'login';
+        return view('registerOK', ['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'msg' => $msg, 'nextStep' => $nextStep]);
     }
 
     /**
