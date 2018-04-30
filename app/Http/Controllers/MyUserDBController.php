@@ -9,13 +9,13 @@ use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-session_start();
+
 
 class MyUserDBController extends Controller {
 
     public function validation(lain $lain, Request $request, $email) {
 
-        $sql = "select * from users where email='" . $email . "'";
+        $sql = "select * from customers where email='" . $email . "'";
         $users = DB::select($sql);
         $result;
         if (empty($users[0])) {
@@ -33,7 +33,7 @@ class MyUserDBController extends Controller {
     }
 
     public function login(lain $lain, Request $request) {
-        $sql = "select * from users where email='" . $request->input('email') . "'";
+        $sql = "select * from customers where email='" . $request->input('email') . "'";
         $users = DB::select($sql);
         if (!empty($users[0])) {
             $user = $users[0];
@@ -96,7 +96,7 @@ class MyUserDBController extends Controller {
         $phone = $request->input('phone');
         $email = $request->input('email');
         $password = $request->input('password');
-        DB::insert('insert into users (first_name,last_name,email,phone_number,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
+        DB::insert('insert into customers (first_name,last_name,email,phone_number,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
         $msg = 'You register your new rego account successfully, Please remember your registered email:';
         $nextStep = 'login';
         return view('registerOK', ['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'msg' => $msg, 'nextStep' => $nextStep]);

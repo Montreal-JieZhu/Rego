@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
+use App\SeatingType;
 use Illuminate\Http\Request;
+
 
 class AdminRestaurantsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,7 @@ class AdminRestaurantsController extends Controller
     public function index()
     {
         //
-        return view('admin.restaurants.index');
+
     }
 
     /**
@@ -26,6 +33,8 @@ class AdminRestaurantsController extends Controller
     public function create()
     {
         //
+        $restaurants = Restaurant::all();
+        return view('admin.restaurants.create', compact('restaurants'));
     }
 
     /**
@@ -37,6 +46,25 @@ class AdminRestaurantsController extends Controller
     public function store(Request $request)
     {
         //
+        // confirm if file exists
+        if ($request->hasFile('logo_image')) {
+            // get file
+            $image = $request->file('logo_image');
+            // set new image file
+            $name = md5(time()).random_int(5,5).'.'.$image->getClientOriginalExtension();
+            // set directory
+            $destination_path = public_path('/images/restaurant-img');
+            // move file to directory
+            $image->move($destination_path, $name);
+
+            // set new image file name
+            $request->merge(["logo"=>$name]);
+        }
+
+
+        Restaurant::create($request->all());
+        $restaurants = Restaurant::all();
+        return view('admin.index', compact('restaurants'));
     }
 
     /**
@@ -59,6 +87,19 @@ class AdminRestaurantsController extends Controller
     public function edit($id)
     {
         //
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurants = Restaurant::all();
+        $seating_types = SeatingType::all();
+        $tables = $restaurant->tables;
+
+        // get max table_number
+        if (count($tables) > 0) {
+            $max_table_number = $tables->last()->table_number;
+        }else{
+            $max_table_number = 0;
+        }
+
+        return view('admin.restaurants.edit', compact('restaurant', 'restaurants', 'seating_types', 'tables', 'max_table_number'));
     }
 
     /**
@@ -71,6 +112,27 @@ class AdminRestaurantsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $restaurant = Restaurant::findOrFail($id);
+
+        // confirm if file exists
+        if ($request->hasFile('logo_image')) {
+            // get file
+            $image = $request->file('logo_image');
+            // set new image file
+            $name = md5(time()).random_int(5,5).'.'.$image->getClientOriginalExtension();
+            // set directory
+            $destination_path = public_path('/images/restaurant-img');
+            // move file to directory
+            $image->move($destination_path, $name);
+
+            // set new image file name
+            $request->merge(["logo"=>$name]);
+        }
+
+        $restaurant->update($request->all());
+
+        $restaurants = Restaurant::all();
+        return view('admin.index', compact('restaurants'));
     }
 
     /**
@@ -82,5 +144,11 @@ class AdminRestaurantsController extends Controller
     public function destroy($id)
     {
         //
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->delete();
+
+        $restaurants = Restaurant::all();
+        return view('admin.index', compact('restaurants'));
+
     }
 }

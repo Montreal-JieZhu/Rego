@@ -12,10 +12,8 @@
     <title>Admin</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{asset('assets/jing/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('assets/jing/css/libs.css')}}" rel="stylesheet">
-
-
+    <link href="{{asset('assets/jing/css/app.css')}}" rel="stylesheet">
 
 
 
@@ -24,10 +22,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-
     <![endif]-->
-
-
 
 
 </head>
@@ -37,7 +32,12 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
+        <!--
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; margin-top: -68px">
+    -->
+
+
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -45,63 +45,39 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="/admin">REGO Admin</a>
         </div>
-        <!-- /.navbar-header -->
-
-
-
-        <ul class="nav navbar-top-links navbar-right">
-
-
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user" style="height: auto;">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-
-
-        </ul>
 
 
 
 
+        <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
 
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
 
-        {{--<ul class="nav navbar-nav navbar-right">--}}
-        {{--@if(auth()->guest())--}}
-        {{--@if(!Request::is('auth/login'))--}}
-        {{--<li><a href="{{ url('/auth/login') }}">Login</a></li>--}}
-        {{--@endif--}}
-        {{--@if(!Request::is('auth/register'))--}}
-        {{--<li><a href="{{ url('/auth/register') }}">Register</a></li>--}}
-        {{--@endif--}}
-        {{--@else--}}
-        {{--<li class="dropdown">--}}
-        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ auth()->user()->name }} <span class="caret"></span></a>--}}
-        {{--<ul class="dropdown-menu" role="menu">--}}
-        {{--<li><a href="{{ url('/auth/logout') }}">Logout</a></li>--}}
-
-        {{--<li><a href="{{ url('/admin/profile') }}/{{auth()->user()->id}}">Profile</a></li>--}}
-        {{--</ul>--}}
-        {{--</li>--}}
-        {{--@endif--}}
-        {{--</ul>--}}
-
-
-
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
+                    </ul>
 
 
         <div class="navbar-default sidebar" role="navigation">
@@ -124,16 +100,18 @@
 
 
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Restaurant Management<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Restaurant Management<span
+                                    class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            @foreach($restaurants as $r)
-                            <li>
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i> {{$r->name}}</a>
-                            </li>
-
+                            @foreach($restaurants as $restaurant)
+                                <li>
+                                    <a href="{{route('restaurants.edit', $restaurant->id)}}"><i
+                                                class="fa fa-wrench fa-fw"></i> {{$restaurant->name}}</a>
+                                </li>
                             @endforeach
                             <li>
-                                <a href="#"><i class="fa fa-plus-square fa-fw"></i> Add New Restaurant</a>
+                                <a href="{{route('restaurants.create')}}"><i class="fa fa-plus-square fa-fw"></i> Add
+                                    new restaurant</a>
                             </li>
 
                         </ul>
@@ -153,20 +131,15 @@
 </div>
 
 
-
-
-
-
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header"></h1>
 
-                @yield('content')
-            </div>
-            <!-- /.col-lg-12 -->
+
+        @yield('content')
+
+        <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
     </div>
@@ -182,9 +155,6 @@
 
 
 @yield('footer')
-
-
-
 
 
 </body>
