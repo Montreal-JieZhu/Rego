@@ -7,7 +7,7 @@ use App\lain;
 use Illuminate\Http\Request;
 use DB;
 
-session_start();
+//session_start();
 
 class ReservationDBController extends Controller {
 
@@ -124,7 +124,7 @@ class ReservationDBController extends Controller {
             $userID = $user->id;
         } else {
             echo "you don't login!<br>";
-            echo '<a href="/login">Please login firstly!</a>';
+            echo '<a href="/userlogin">Please login firstly!</a>';
             return;
         }
         $guestNumber = $request->input('numbers');
