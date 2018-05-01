@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/XAMPP/htdocs/resources/views/layouts/master.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/app/Http/Middleware/Admin.php</file>
+            <file>file:/D:/XAMPP/htdocs/app/Http/Controllers/AdminController.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/admin/index.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/app/Http/Controllers/LanguageController.php</file>
+            <file>file:/D:/XAMPP/htdocs/app/Http/Middleware/Language.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/master.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/admin/restaurants/create.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/admin/restaurants/edit.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/layouts/admin.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/login.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/resources/views/layouts/app.blade.php</file>
+            <file>file:/D:/XAMPP/htdocs/routes/web.php</file>
+        </group>
+    </open-files>
+</project-private>

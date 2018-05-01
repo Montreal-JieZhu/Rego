@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,11 +163,15 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+		'Collective\Html\HtmlServiceProvider',
+		//Illuminate\Html\HtmlServiceProvider::class,
+		//'Illuminate\Html\HtmlServiceProvider',
+		//debugbar  auto-discovery, add the ServiceProvider to the providers array in config/app.php
+		Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
-         * Package Service Providers Debugbar
+         * Package Service Providers...
          */
-		 Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -226,7 +230,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		//DebugBar 
+		'Form' => 'Collective\Html\FormFacade',
+		'Html' => 'Collective\Html\HtmlFacade',
+		//'Form' => Illuminate\Html\FormFacade::class,
+		//'Html' => Illuminate\Html\HtmlFacade::class,
+		//for using the facade to log debug messages
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],

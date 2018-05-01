@@ -40,6 +40,7 @@
 
     <body>
         <div class="login-dark">
+            @if($_SESSION['language']=='En')
             <form action='/userdb/login' method="post">
                 <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
                 <h2 class="sr-only">Login Form</h2>
@@ -55,6 +56,23 @@
                 <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
                 <div class="form-group"><button class="btn btn-primary btn-block" type="button" onclick="location.href = '/'">Home</button></div>
             </form>
+            @elseif($_SESSION['language']=='Fr')
+            <form action='/userdb/login' method="post">
+                <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                <h2 class="sr-only">Formulaire de connexion</h2>
+                <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+                <div class="form-group">
+                    <select class="form-control" name='type' id='type' >
+                        <option style='color:black' value='user'>Utilisateur</option>
+                        <option style='color:black' value='restauteur'>Restauteur</option>
+                    </select>
+                </div>
+                <div class="form-group"><input class="form-control" type="email" id='email' name="email" placeholder="Email"></div>
+                <div class="form-group"><input class="form-control" type="password" id='password' name="password" placeholder="Mot de passe"></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">S'identifier</button></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="button" onclick="location.href = '/'">Accueil</button></div>
+            </form>
+            @endif
         </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>

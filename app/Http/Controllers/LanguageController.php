@@ -6,21 +6,21 @@ use DummyFullModelClass;
 use App\lain;
 use Illuminate\Http\Request;
 
-class LanguageController extends Controller
-{
+class LanguageController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function index(lain $lain,$lang)
-    {
-        if($lang=='En'){
+    public function index(lain $lain, $lang) {
+        if ($lang == 'En') {
             $_SESSION['language'] = 'En';
-        }else if($lang=='Fr'){
+        } else if ($lang == 'Fr') {
             $_SESSION['language'] = 'Fr';
         }
+        //echo config('myregoapp.HOME_URL');
         header('Refresh:0;url=' . config('myregoapp.HOME_URL'));
     }
 
@@ -30,8 +30,7 @@ class LanguageController extends Controller
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function create(lain $lain)
-    {
+    public function create(lain $lain) {
         //
     }
 
@@ -42,8 +41,7 @@ class LanguageController extends Controller
      * @param  \App\lain  $lain
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, lain $lain)
-    {
+    public function store(Request $request, lain $lain) {
         //
     }
 
@@ -54,8 +52,7 @@ class LanguageController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function show(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function show(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -66,8 +63,7 @@ class LanguageController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function edit(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function edit(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -79,8 +75,7 @@ class LanguageController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function update(Request $request, lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
 
@@ -91,8 +86,8 @@ class LanguageController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(lain $lain, DummyModelClass $DummyModelVariable)
-    {
+    public function destroy(lain $lain, DummyModelClass $DummyModelVariable) {
         //
     }
+
 }

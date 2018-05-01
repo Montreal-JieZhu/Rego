@@ -11,16 +11,16 @@
   |
  */
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 session_start();
 
 Route::get('/', function () {
-    $restaurants = DB::table('restaurants')->get();
-    if(empty($_SESSION['language'])){        
+
+    $sql = 'select * from restaurants';
+    $restaurants = DB::select($sql);
+    if (empty($_SESSION['language'])) {
         $_SESSION['language'] = 'En';
-    }    
+    }
     return view('index', ['restaurants' => $restaurants]);
 });
 Route::get('changeLang/{lang}', 'LanguageController@index');
@@ -29,13 +29,13 @@ Route::get('sendbasicemail', 'MailController@basic_email');
 Route::get('sendhtmlemail', 'MailController@html_email');
 Route::get('sendattachmentemail', 'MailController@attachment_email');
 
-Route::get('/login', function () {
+Route::get('/userlogin', function () {
     return view('login');
 });
 
-Route::get('/logout', 'MyUserDBController@logout');
+Route::get('/userlogout', 'MyUserDBController@logout');
 
-Route::get('/register', function () {
+Route::get('/userregister', function () {
     return view('register');
 });
 
@@ -79,10 +79,10 @@ Route::resource('userdb', 'MyUserDBController');
 Route::post('/reservation/submit', 'ReservationDBController@insert');
 //Auth::routes();
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 Route::resource('/admin', 'AdminController');
 
@@ -92,9 +92,11 @@ Route::resource('/admin/restaurant/tables', 'AdminRestaurantTablesController');
 
 Route::post('/admin/restaurant/tables/add_all', 'AdminRestaurantTablesController@insertAll');
 Route::post('/admin/restaurant/tables/edit_all', 'AdminRestaurantTablesController@updateAll');
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/change_language/{locale}', function ($locale) {
+    setcookie('my_locale', $locale, time() + (86400 * 30), "/");
+    return redirect()->back();
+});
 
 Auth::routes();
 

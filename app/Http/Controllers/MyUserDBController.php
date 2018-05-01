@@ -9,8 +9,6 @@ use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-
-
 class MyUserDBController extends Controller {
 
     public function validation(lain $lain, Request $request, $email) {
@@ -51,11 +49,11 @@ class MyUserDBController extends Controller {
                 }
             } else {
                 echo 'Your password is not correct, please check it!';
-                header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/login');
+                header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/userlogin');
             }
         } else {
             echo 'Your account name is not correct, please check it!';
-            header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/login');
+            header('Refresh:0;url=' . config('myregoapp.HOME_URL') . '/userlogin');
         }
     }
 
@@ -98,7 +96,7 @@ class MyUserDBController extends Controller {
         $password = $request->input('password');
         DB::insert('insert into customers (first_name,last_name,email,phone_number,password) values(?,?,?,?,?)', [$firstname, $lastname, $email, $phone, $password]);
         $msg = 'You register your new rego account successfully, Please remember your registered email:';
-        $nextStep = 'login';
+        $nextStep = 'userlogin';
         return view('registerOK', ['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'msg' => $msg, 'nextStep' => $nextStep]);
     }
 

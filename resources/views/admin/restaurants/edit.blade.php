@@ -2,10 +2,10 @@
 
 @section('content')
 
-    <h2>Edit Restaurant</h2>
+    <h2>{{__('admin.edit_rest')}}</h2>
 
     <div class="alert alert-info">
-        <strong>Editor: </strong> Change your restaurant information on REGO.
+        <strong>{{__('admin.editor')}}: </strong> {{__('admin.change_rest')}}
     </div>
 
     <form class="form-horizontal" method="POST" action="/admin/restaurants/{{$restaurant->id}}"
@@ -14,18 +14,18 @@
         <input type="hidden" name="_method" value="PUT">
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="name">Name:</label>
+            <label class="control-label col-sm-2" for="name">{{__('admin.name')}}:</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" id="name" name="name" value="{{$restaurant->name}}"
-                       placeholder="Enter restaurant name">
+                       placeholder="{{__('admin.enter_rest_name')}}">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="logo">Logo:</label>
+            <label class="control-label col-sm-2" for="logo">{{__('admin.logo')}}:</label>
             <div class="col-sm-10">
 
-                <img id="logo_image_preview" src="\public\images\restaurant-img\{{$restaurant->logo}}" class="img-rounded"
+                <img id="logo_image_preview" src="\images\restaurant-img\{{$restaurant->logo}}" class="img-rounded"
                      alt="{{$restaurant->name}}" width="167px" height="86px">
 
                 <label id="file_choose_msg" class="control-label text-danger bg-warning"></label>
@@ -68,72 +68,89 @@
         </script>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="description">Description:</label>
+            <label class="control-label col-sm-2" for="description">{{__('admin.description')}}:</label>
             <div class="col-sm-10">
                 <textarea class="form-control rounded-0" id="description" name="description" rows="5"
-                          placeholder="Enter description">{{$restaurant->description}}</textarea>
+                          placeholder="{{__('admin.enter_desc')}}">{{$restaurant->description}}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="city">City:</label>
+            <label class="control-label col-sm-2" for="city">{{__('admin.city')}}:</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" id="city" name="city" value="{{$restaurant->city}}"
-                       placeholder="Enter city">
+                       placeholder="{{__('admin.enter_city')}}">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="address">Address:</label>
+            <label class="control-label col-sm-2" for="address">{{__('admin.address')}}:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="address" name="address" value="{{$restaurant->address}}"
-                       placeholder="Enter address">
+                       placeholder="{{__('admin.enter_addr')}}">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="postal_code">Postal Code:</label>
+            <label class="control-label col-sm-2" for="postal_code">{{__('admin.postal_code')}}:</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" id="postal_code" name="postal_code"
-                       value="{{$restaurant->postal_code}}" placeholder="Enter postal code">
+                       value="{{$restaurant->postal_code}}" placeholder="{{__('admin.enter_postal_code')}}">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="cuisine_style">Cuisine Style:</label>
+            <label class="control-label col-sm-2" for="cuisine_style">{{__('admin.cuisine_style')}}:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="cuisine_style" name="cuisine_style"
-                       value="{{$restaurant->cuisine_style}}" placeholder="Enter cuisine style">
+                       value="{{$restaurant->cuisine_style}}" placeholder="{{__('admin.enter_cuisine_style')}}">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="popular_menu">Popular Menu:</label>
+            <label class="control-label col-sm-2" for="popular_menu">{{__('admin.popular_menu')}}:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="popular_menu" name="popular_menu"
-                       value="{{$restaurant->popular_menu}}" placeholder="Enter popular menu">
+                       value="{{$restaurant->popular_menu}}" placeholder="{{__('admin.enter_pop_menu')}}">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="operation_from">Operation Starts:</label>
+            <label class="control-label col-sm-2" for="operation_from">{{__('admin.operation_s')}}:</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="operation_from" name="operation_from"
-                       value="{{$restaurant->operation_from}}" placeholder="Enter operation starts from">
+                <select class="form-control" id="operation_from" name="operation_from">
+                    @for($date = date_time_set(date_create(now()), 0, 0, 0); $date < date_time_set(date_create(now()), 24, 0, 0); date_add($date,date_interval_create_from_date_string("30 minutes")))
+                        @if (date_format($date, "H:i:s") == $restaurant->operation_from)
+                            <option value="{{date_format($date, "H:i")}}"
+                                    selected>{{date_format($date, "H:i")}}</option>
+                        @else
+                            <option value="{{date_format($date, "H:i")}}">{{date_format($date, "H:i")}}</option>
+                        @endif
+                    @endfor
+                </select>
+
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="operation_to">Operation Ends:</label>
+            <label class="control-label col-sm-2" for="operation_to">{{__('admin.operation_e')}}:</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="operation_to" name="operation_to"
-                       value="{{$restaurant->operation_to}}" placeholder="Enter operation ends at">
+                <select class="form-control" id="operation_to" name="operation_to">
+                    @for($date = date_time_set(date_create(now()), 0, 0, 0); $date < date_time_set(date_create(now()), 24, 0, 0); date_add($date,date_interval_create_from_date_string("30 minutes")))
+                        @if (date_format($date, "H:i:s") == $restaurant->operation_to)
+                            <option value="{{date_format($date, "H:i")}}"
+                                    selected>{{date_format($date, "H:i")}}</option>
+                        @else
+                            <option value="{{date_format($date, "H:i")}}">{{date_format($date, "H:i")}}</option>
+                        @endif
+                    @endfor
+                </select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Save Changes</button>
+                <button type="submit" class="btn btn-default">{{__('admin.save_changes')}}</button>
             </div>
         </div>
 
     </form>
 
-    <h2>Edit Dining Tables</h2>
+    <h2>{{__('admin.edit_tables')}}</h2>
     <div class="alert alert-info">
-        <strong>Editor: </strong> Edit table information in your restaurant.
+        <strong>{{__('admin.editor')}}: </strong> {{__('admin.edit_table_info')}}
     </div>
 
     <form class="form-horizontal" method="POST" action="/admin/restaurant/tables/edit_all">
@@ -143,12 +160,12 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>Table Number</th>
-                    <th>Capacity</th>
-                    <th>Seating type</th>
-                    <th>Is available</th>
-                    <th>Smoking area</th>
-                    <th>Delete</th>
+                    <th>{{__('admin.table_number')}}</th>
+                    <th>{{__('admin.capacity')}}</th>
+                    <th>{{__('admin.seating_type')}}</th>
+                    <th>{{__('admin.is_available')}}</th>
+                    <th>{{__('admin.smoking_area')}}</th>
+                    <th>{{__('admin.delete')}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -198,30 +215,30 @@
                             @if ($table->is_available)
                                 <label class="radio-inline"><input type="radio" name="is_available{{$key}}"
                                                                    value="1"
-                                                                   checked>Yes</label>
+                                                                   checked>{{__('admin.yes')}}</label>
                                 <label class="radio-inline"><input type="radio" name="is_available{{$key}}"
-                                                                   value="0">No</label>
+                                                                   value="0">{{__('admin.no')}}</label>
                             @else
                                 <label class="radio-inline"><input type="radio" name="is_available{{$key}}"
-                                                                   value="1">Yes</label>
+                                                                   value="1">{{__('admin.yes')}}</label>
                                 <label class="radio-inline"><input type="radio" name="is_available{{$key}}"
                                                                    value="0"
-                                                                   checked>No</label>
+                                                                   checked>{{__('admin.no')}}</label>
                             @endif
                         </td>
                         <td>
                             @if ($table->at_smoking_area)
                                 <label class="radio-inline"><input type="radio" name="smoking_area{{$key}}"
                                                                    value="1"
-                                                                   checked>Yes</label>
+                                                                   checked>{{__('admin.yes')}}</label>
                                 <label class="radio-inline"><input type="radio" name="smoking_area{{$key}}"
-                                                                   value="0">No</label>
+                                                                   value="0">{{__('admin.no')}}</label>
                             @else
                                 <label class="radio-inline"><input type="radio" name="smoking_area{{$key}}"
-                                                                   value="1">Yes</label>
+                                                                   value="1">{{__('admin.yes')}}</label>
                                 <label class="radio-inline"><input type="radio" name="smoking_area{{$key}}"
                                                                    value="0"
-                                                                   checked>No</label>
+                                                                   checked>{{__('admin.no')}}</label>
                             @endif
                         </td>
                         <td>
@@ -241,7 +258,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-10">
-                <button type="submit" class="btn btn-default">Save Changes</button>
+                <button type="submit" class="btn btn-default">{{__('admin.save_changes')}}</button>
             </div>
         </div>
 
@@ -251,7 +268,7 @@
     @php($max_lines = 20)
 
     <div class="alert alert-info">
-        <strong>Add: </strong> Add more tables in your restaurant.
+        <strong>{{__('admin.add')}}: </strong> {{__('admin.add_more_tables')}}
     </div>
     <form class="form-horizontal">
         <div class="form-group">
@@ -265,7 +282,7 @@
             </div>
             <div class="col-sm-10">
                 <button type="button" class="btn btn-default" onclick="read_quantity_and_init_form()"
-                        data-toggle="modal" data-target="#add_new_tables_modal">Add Tables
+                        data-toggle="modal" data-target="#add_new_tables_modal">{{__('admin.add_dining_tables')}}
                 </button>
             </div>
         </div>
@@ -322,8 +339,9 @@
             <div class="modal-content">
                 <form class="form-horizontal" method="POST" action="/admin/restaurant/tables/add_all">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" onclick="rollback_tables()">&times;</button>
-                        <h4 class="modal-title">Add New Dining Tables</h4>
+                        <button type="button" class="close" data-dismiss="modal" onclick="rollback_tables()">&times;
+                        </button>
+                        <h4 class="modal-title">{{__('admin.add_new_dining_tables')}}</h4>
                     </div>
                     <div class="modal-body">
 
@@ -339,12 +357,12 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Table Number</th>
-                                    <th>Capacity</th>
-                                    <th>Seating type</th>
-                                    <th>Is available</th>
-                                    <th>Smoking area</th>
-                                    <th>Delete</th>
+                                    <th>{{__('admin.table_number')}}</th>
+                                    <th>{{__('admin.capacity')}}</th>
+                                    <th>{{__('admin.seating_type')}}</th>
+                                    <th>{{__('admin.is_available')}}</th>
+                                    <th>{{__('admin.smoking_area')}}</th>
+                                    <th>{{__('admin.delete')}}</th>
                                 </tr>
                                 </thead>
 
@@ -396,11 +414,11 @@
                                                                            id="is_available1"
                                                                            name="is_available"
                                                                            value="1"
-                                                                           checked>Yes</label>
+                                                                           checked>{{__('admin.yes')}}</label>
                                         <label class="radio-inline"><input type="radio"
                                                                            id="is_available2"
                                                                            name="is_available"
-                                                                           value="0">No</label>
+                                                                           value="0">{{__('admin.no')}}</label>
 
                                     </td>
                                     <td>
@@ -408,12 +426,12 @@
                                         <label class="radio-inline"><input type="radio"
                                                                            id="smoking_area1"
                                                                            name="smoking_area"
-                                                                           value="1">Yes</label>
+                                                                           value="1">{{__('admin.yes')}}</label>
                                         <label class="radio-inline"><input type="radio"
                                                                            id="smoking_area2"
                                                                            name="smoking_area"
                                                                            value="0"
-                                                                           checked>No</label>
+                                                                           checked>{{__('admin.no')}}</label>
 
                                     </td>
                                     <td>
@@ -429,7 +447,6 @@
                                 <tbody id="new_table_body">
 
 
-
                                 </tbody>
                             </table>
 
@@ -439,9 +456,9 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="sumbit" class="btn btn-default pull-left">Add New Dining Tables</button>
+                        <button type="sumbit" class="btn btn-default pull-left">{{__('admin.add_new_dining_tables')}}</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal"
-                                onclick="rollback_tables()">Close
+                                onclick="rollback_tables()">{{__('admin.close')}}
                         </button>
                     </div>
                 </form>
@@ -449,18 +466,18 @@
         </div>
     </div>
 
-    <h2>Delete Restaurant</h2>
+    <h2>{{__('admin.delete_rest')}}</h2>
     <div class="alert alert-danger">
-        <strong>Danger!</strong> Decided to close the restaurant on REGO.
+        <strong>{{__('admin.danger')}}!</strong> {{__('admin.decided_close')}}
     </div>
-    <form class="form-horizontal" onclick='return confirm("Are you sure to delete the restaurant?")'
+    <form class="form-horizontal" onclick='return confirm("{{__('admin.confirmation_delete')}}")'
           method="POST" action="/admin/restaurants/{{$restaurant->id}}">
         {{ csrf_field() }}
         <input type="hidden" name="_method" value="DELETE">
         <div class="form-group">
 
             <div class="col-sm-3">
-                <button type="submit" class="btn btn-default">Delete Restaurant</button>
+                <button type="submit" class="btn btn-default">{{__('admin.delete_rest')}}</button>
             </div>
         </div>
     </form>

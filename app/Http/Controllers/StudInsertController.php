@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 
 class StudInsertController extends Controller
 {
-    
-    public function insertform(){
-      return view('stud_create');
+	
+   public function insertform(){
+      return view('studentinsert');
    }
 	
-   public function insert(Request $request){      
+	public function insert(Request $request){      
       echo "Record inserted successfully.<br/>";
       echo '<a href = "/insert">Click Here</a> to go back.';
    }
