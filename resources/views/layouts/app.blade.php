@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>REGO Admin</title>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
 
                         <!-- Branding Image -->
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            REGO Admin
                         </a>
                     </div>
 
@@ -43,8 +43,8 @@
                         <ul class="nav navbar-nav navbar-right">
                             <!-- Authentication Links -->
                             @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">{{__('app.login')}}</a></li>
+                            <li><a href="{{ route('register') }}">{{__('app.register')}}</a></li>
                             @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -66,6 +66,7 @@
                                 </ul>
                             </li>
                             @endguest
+                            <li><a class="nav-link" href="/change_language/{{ Illuminate\Support\Str::lower(__('app.language'))}}">{{ __('app.language') }}</a></li>
                         </ul>
                     </div>
                 </div>

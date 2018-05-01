@@ -45,7 +45,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/admin">REGO Admin</a>
+                    <a class="navbar-brand" href="/">REGO Admin</a>
                 </div>
 
 
@@ -72,6 +72,7 @@
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
                                 @csrf
                             </form>
                         </div>
